@@ -13,8 +13,12 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
-        Provider(create: (_) => ChatService()),
-        Provider(create: (_) => WebSocketService()),
+        ProxyProvider<AuthService, ChatService>(
+          update: (_, authService, __) => ChatService(authService, WebSocketService()),
+        ),
+        ProxyProvider<AuthService, WebSocketService>(
+          update: (_, authService, __) => WebSocketService(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -36,8 +40,8 @@ class MyApp extends StatelessWidget {
       home: const AuthWrapper(),
       routes: {
         '/home': (context) => const HomeScreen(),
-        '/chat': (context) => const ChatScreen(user: ciurr),
-        '/profile': (context) => const ProfileScreen(),
+        '/chat': (context) => ChatScreen(user: Provider.of<AuthService>(context, listen: false).currentUser!),
+        '/profile': (context) => ProfileScreen(),
       },
     );
   }
@@ -65,12 +69,12 @@ class AuthWrapper extends StatelessWidget {
           );
         } else {
           return StreamBuilder<User?>(
-            stream: authService.authStateChanges(),
+            stream: authService.userStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return HomeScreen(user: snapshot.data!);
+                return const HomeScreen();
               } else {
-                return AuthScreen(authService: authService);
+                return const AuthScreen();
               }
             },
           );

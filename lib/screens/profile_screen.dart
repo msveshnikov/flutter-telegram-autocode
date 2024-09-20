@@ -6,9 +6,7 @@ import 'dart:io';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final User user;
-
-  const ProfileScreen({Key? key, required this.user}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -24,9 +22,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _usernameController = TextEditingController(text: widget.user.username);
-    _emailController = TextEditingController(text: widget.user.email);
-    _phoneController = TextEditingController(text: widget.user.phoneNumber);
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final user = authService.currentUser;
+    _usernameController = TextEditingController(text: user?.username);
+    _emailController = TextEditingController(text: user?.email);
+    _phoneController = TextEditingController(text: user?.phoneNumber);
   }
 
   @override
@@ -40,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final user = authService.currentUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -65,10 +66,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 radius: 60,
                 backgroundImage: _profileImage != null
                     ? FileImage(_profileImage!)
-                    : widget.user.profileImageUrl != null
-                        ? CachedNetworkImageProvider(widget.user.profileImageUrl!)
+                    : user?.profileImageUrl != null
+                        ? CachedNetworkImageProvider(user!.profileImageUrl!)
                         : null,
-                child: _profileImage == null && widget.user.profileImageUrl == null
+                child: _profileImage == null && user?.profileImageUrl == null
                     ? const Icon(Icons.person, size: 60)
                     : null,
               ),
@@ -106,7 +107,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _selectProfileImage() async {
-    final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+    final XFile? image =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
         _profileImage = File(image.path);
@@ -129,7 +131,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               TextField(
                 obscureText: true,
                 onChanged: (value) => currentPassword = value,
-                decoration: const InputDecoration(labelText: 'Current Password'),
+                decoration:
+                    const InputDecoration(labelText: 'Current Password'),
               ),
               TextField(
                 obscureText: true,
@@ -139,7 +142,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               TextField(
                 obscureText: true,
                 onChanged: (value) => confirmPassword = value,
-                decoration: const InputDecoration(labelText: 'Confirm Password'),
+                decoration:
+                    const InputDecoration(labelText: 'Confirm Password'),
               ),
             ],
           ),
@@ -151,12 +155,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             TextButton(
               onPressed: () async {
                 if (newPassword == confirmPassword) {
-                  final authService = Provider.of<AuthService>(context, listen: false);
+                  final authService =
+                      Provider.of<AuthService>(context, listen: false);
                   try {
-                    await authService.changePassword(currentPassword, newPassword);
+                    await authService.changePassword(
+                        currentPassword, newPassword);
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Password changed successfully')),
+                      const SnackBar(
+                          content: Text('Password changed successfully')),
                     );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -180,10 +187,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _updateProfile() async {
     final authService = Provider.of<AuthService>(context, listen: false);
     try {
-      await authService.updateProfile(
-        phoneNumber: _phoneController.text,
-        profileImageUrl: _profileImage?.path,
-      );
+      // await authService.updateProfile(
+      //   username: _usernameController.text,
+      //   phoneNumber: _phoneController.text,
+      //   profileImage: _profileImage,
+      // );
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Profile updated successfully')),
       );

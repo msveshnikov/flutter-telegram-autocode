@@ -51,6 +51,8 @@ class AuthService extends ChangeNotifier {
   User? get currentUser => _currentUser;
   bool get isLoading => _isLoading;
 
+  get userStream => null;
+
   Future<void> initialize() async {
     _isLoading = true;
     notifyListeners();

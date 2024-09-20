@@ -45,7 +45,7 @@ class ChatService {
 
   void _handleNewMessage(Map<String, dynamic> data) {
     final message = Message.fromJson(data);
-    _messagesController.add([..._messagesController.value, message]);
+    // _messagesController.add([..._messagesController.value, message]);
   }
 
   void sendMessage(String content) {

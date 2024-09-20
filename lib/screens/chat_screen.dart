@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:messenger/services/auth_service.dart';
 import 'package:messenger/services/chat_service.dart';
-import 'package:messenger/services/websocket_service.dart';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,15 +21,13 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   late ChatService _chatService;
-  late WebSocketService _webSocketService;
   List<Message> _messages = [];
-  late StreamSubscription<Map<String, dynamic>> _messageSubscription;
+  late StreamSubscription<List<Message>> _messageSubscription;
 
   @override
   void initState() {
     super.initState();
     _chatService = Provider.of<ChatService>(context, listen: false);
-    _webSocketService = Provider.of<WebSocketService>(context, listen: false);
     _loadMessages();
     _subscribeToMessages();
   }
@@ -44,19 +41,19 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _loadMessages() async {
-    final messages = await _chatService.getChats();
+    final chats = await _chatService.getChats();
     setState(() {
-      _messages = messages.expand((chat) => chat.messages ?? []).toList();
+      // _messages = chats.expand((chat) => chat.messages ?? []).toList();
       _messages.sort((a, b) => b.timestamp.compareTo(a.timestamp));
     });
     _scrollToBottom();
   }
 
   void _subscribeToMessages() {
-    _messageSubscription = _webSocketService.messageStream.listen((data) {
-      final newMessage = Message.fromJson(data);
+    _messageSubscription = _chatService.messagesStream.listen((messages) {
       setState(() {
-        _messages.insert(0, newMessage);
+        _messages = messages;
+        _messages.sort((a, b) => b.timestamp.compareTo(a.timestamp));
       });
       _scrollToBottom();
     });
@@ -64,16 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _sendMessage() {
     if (_messageController.text.isNotEmpty) {
-      final message = Message(
-        id: DateTime.now().toString(),
-        sender: widget.user.username,
-        content: _messageController.text,
-        timestamp: DateTime.now(),
-      );
-      _webSocketService.sendMessage(_messageController.text);
-      setState(() {
-        _messages.insert(0, message);
-      });
+      _chatService.sendMessage(_messageController.text);
       _messageController.clear();
       _scrollToBottom();
     }
