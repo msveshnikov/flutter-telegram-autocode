@@ -31,7 +31,6 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     _chatService = Provider.of<ChatService>(context, listen: false);
     _webSocketService = Provider.of<WebSocketService>(context, listen: false);
-    _authService = Provider.of<AuthService>(context, listen: false);
     _loadMessages();
     _subscribeToMessages();
   }
