@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeleClone - Secure Messaging for Everyone</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        
+        :root {
+            --primary-color: #0088cc;
+            --secondary-color: #29b6f6;
+            --accent-color: #ff9800;
+            --text-color: #333;
+            --bg-color: #f4f4f4;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; line-height: 1.6; color: var(--text-color); background-color: var(--bg-color); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: var(--primary-color); color: #fff; padding: 1rem 0; position: fixed; width: 100%; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        nav ul { list-style: none; display: flex; }
+        nav ul li { margin-left: 20px; }
+        nav a { color: #fff; text-decoration: none; font-weight: 700; transition: color 0.3s ease; }
+        nav a:hover { color: var(--accent-color); }
+        .hero { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: #fff; padding: 8rem 0 4rem; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+        .features { padding: 5rem 0; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .feature { background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+        .feature:hover { transform: translateY(-5px); }
+        .feature h3 { color: var(--primary-color); margin-bottom: 1rem; }
+        .pricing { background: var(--bg-color); padding: 5rem 0; text-align: center; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .price-card { background: #fff; padding: 3rem 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+        .price-card:hover { transform: scale(1.05); }
+        .price-card h3 { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 1rem; }
+        .price-card .price { font-size: 2rem; font-weight: 700; color: var(--accent-color); margin-bottom: 1.5rem; }
+        .price-card ul { list-style: none; margin-bottom: 2rem; }
+        .price-card ul li { margin-bottom: 0.5rem; }
+        .cta { background: var(--accent-color); color: #fff; padding: 1rem 2rem; text-decoration: none; border-radius: 50px; display: inline-block; margin-top: 1rem; font-weight: 700; transition: background-color 0.3s ease; }
+        .cta:hover { background-color: #f57c00; }
+        footer { background: #333; color: #fff; text-align: center; padding: 2rem 0; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .feature-grid, .pricing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <h1>TeleClone</h1>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Secure Messaging for Everyone</h1>
+            <p>Experience real-time communication with our Telegram-inspired messenger</p>
+            <a href="#" class="cta">Get Started</a>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <h3>Real-time Messaging</h3>
+                    <p>Instant communication using WebSockets</p>
+                </div>
+                <div class="feature">
+                    <h3>Group Chats</h3>
+                    <p>Create and manage group conversations</p>
+                </div>
+                <div class="feature">
+                    <h3>File Sharing</h3>
+                    <p>Share files and media with ease</p>
+                </div>
+                <div class="feature">
+                    <h3>Push Notifications</h3>
+                    <p>Stay updated with new message alerts</p>
+                </div>
+                <div class="feature">
+                    <h3>Message Search</h3>
+                    <p>Quickly find past conversations</p>
+                </div>
+                <div class="feature">
+                    <h3>Profile Management</h3>
+                    <p>Customize your user profile</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2>Pricing Plans</h2>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Basic</h3>
+                    <p class="price">$0/month</p>
+                    <ul>
+                        <li>Unlimited messaging</li>
+                        <li>Group chats up to 100 members</li>
+                        <li>1GB file storage</li>
+                    </ul>
+                    <a href="#" class="cta">Choose Plan</a>
+                </div>
+                <div class="price-card">
+                    <h3>Pro</h3>
+                    <p class="price">$4.99/month</p>
+                    <ul>
+                        <li>All Basic features</li>
+                        <li>Group chats up to 1000 members</li>
+                        <li>10GB file storage</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#" class="cta">Choose Plan</a>
+                </div>
+                <div class="price-card">
+                    <h3>Enterprise</h3>
+                    <p class="price">Contact us</p>
+                    <ul>
+                        <li>All Pro features</li>
+                        <li>Unlimited group members</li>
+                        <li>Custom storage options</li>
+                        <li>Dedicated support team</li>
+                    </ul>
+                    <a href="#" class="cta">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2023 TeleClone. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
