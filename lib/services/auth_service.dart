@@ -205,4 +205,6 @@ class AuthService extends ChangeNotifier {
     _currentUser = null;
     notifyListeners();
   }
+
+  getToken() {}
 }

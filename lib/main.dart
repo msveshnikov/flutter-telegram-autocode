@@ -35,8 +35,8 @@ class MyApp extends StatelessWidget {
       ),
       home: const AuthWrapper(),
       routes: {
-        '/home': (context) => const HomeScreen(user: null),
-        '/chat': (context) => const ChatScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/chat': (context) => const ChatScreen(user: ciurr),
         '/profile': (context) => const ProfileScreen(),
       },
     );
